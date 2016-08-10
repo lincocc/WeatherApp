@@ -1,7 +1,7 @@
 package com.demo.weatherapp.network;
 
 import com.demo.weatherapp.BuildConfig;
-import com.demo.weatherapp.common.Constance;
+import com.demo.weatherapp.common.Constants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -106,21 +106,21 @@ public class RetrofitSingleton {
 //        PLog.w(t.toString());
 //    }
 
-    public Observable<Weather> fetchWeather(String city) {
-        return apiService.weatherList(city, Constance.HE_WEATHER_KEY)
+    public Observable<WeatherList.WeatherBean> fetchWeather(String city) {
+        return apiService.weatherList(city, Constants.HE_WEATHER_KEY)
                 .flatMap(new Func1<WeatherList, Observable<WeatherList>>() {
                     @Override
                     public Observable<WeatherList> call(WeatherList weatherList) {
-                        if (weatherList.mHeWeatherList.get(0).status.equals("no more requests")) {
+                        if (weatherList.heWeatherList.get(0).status.equals("no more requests")) {
                             return Observable.error(new RuntimeException("API免费次数已用完"));
                         }
                         return Observable.just(weatherList);
                     }
                 })
-                .map(new Func1<WeatherList, Weather>() {
+                .map(new Func1<WeatherList, WeatherList.WeatherBean>() {
                     @Override
-                    public Weather call(WeatherList weatherList) {
-                        return weatherList.mHeWeatherList.get(0);
+                    public WeatherList.WeatherBean call(WeatherList weatherList) {
+                        return weatherList.heWeatherList.get(0);
                     }
                 })
                 .subscribeOn(Schedulers.io())

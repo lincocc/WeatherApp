@@ -2,28 +2,28 @@ package com.demo.weatherapp;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.demo.weatherapp.adapter.MainViewPagerAdapter;
+import com.demo.weatherapp.common.Utils;
 import com.demo.weatherapp.dummy.DummyContent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnListFragmentInteractionListener {
 
@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        getWindow().setStatusBarColor(Utils.getCurrentHourColor());
         setSupportActionBar(mToolbar);
-
+        mToolbar.setBackgroundColor(Utils.getCurrentHourColor());
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity
 
         mTabLayout.addTab(mTabLayout.newTab().setText("main"));
         mTabLayout.addTab(mTabLayout.newTab().setText("other"));
+        mTabLayout.setBackgroundColor(Utils.getCurrentHourColor());
         mAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         mViewPager.setAdapter(mAdapter);
@@ -121,11 +123,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 

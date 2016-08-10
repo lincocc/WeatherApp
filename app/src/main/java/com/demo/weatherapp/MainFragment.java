@@ -3,7 +3,6 @@ package com.demo.weatherapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,21 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.demo.weatherapp.adapter.MyItemRecyclerViewAdapter;
-import com.demo.weatherapp.dummy.DummyContent;
+import com.demo.weatherapp.adapter.DailyWeatherAdapter;
+import com.demo.weatherapp.common.Utils;
 import com.demo.weatherapp.dummy.DummyContent.DummyItem;
 import com.demo.weatherapp.network.RetrofitSingleton;
-import com.demo.weatherapp.network.Weather;
+import com.demo.weatherapp.network.WeatherList.WeatherBean;
+
+import java.util.ArrayList;
 
 import rx.Subscriber;
 
 public class MainFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
+    private DailyWeatherAdapter mAdapter;
 
     public MainFragment() {
     }
@@ -33,7 +32,6 @@ public class MainFragment extends Fragment {
     public static MainFragment newInstance(int columnCount) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,10 +39,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -52,16 +46,13 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mAdapter = new DailyWeatherAdapter(new ArrayList<WeatherBean.DailyForecastBean>());
+            recyclerView.setAdapter(mAdapter);
+            recyclerView.setBackgroundColor(Utils.getCurrentHourColor());
         }
         return view;
     }
@@ -69,7 +60,12 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        RetrofitSingleton.getInstance().fetchWeather("beijing").subscribe(new Subscriber<Weather>() {
+        loadWeatherDate("shenzhen");
+    }
+
+    private void loadWeatherDate(String city) {
+        RetrofitSingleton.getInstance().fetchWeather(city).subscribe(
+                new Subscriber<WeatherBean>() {
             @Override
             public void onCompleted() {
                 Log.e("aaa", "onCompleted");
@@ -81,8 +77,8 @@ public class MainFragment extends Fragment {
             }
 
             @Override
-            public void onNext(Weather weather) {
-                Log.e("aaa", weather.now.fl);
+            public void onNext(WeatherBean weather) {
+                mAdapter.updateSource(weather.dailyForecast);
             }
         });
     }
