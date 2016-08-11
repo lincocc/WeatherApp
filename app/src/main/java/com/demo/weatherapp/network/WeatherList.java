@@ -127,6 +127,11 @@ public class WeatherList {
             public UvBean uv;
 
             public static class ComfBean {
+                @Override
+                public String toString() {
+                    return "comf";
+                }
+
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -134,6 +139,10 @@ public class WeatherList {
             }
 
             public static class CwBean {
+                @Override
+                public String toString() {
+                    return "cw";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -141,6 +150,10 @@ public class WeatherList {
             }
 
             public static class DrsgBean {
+                @Override
+                public String toString() {
+                    return "drsg";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -148,6 +161,10 @@ public class WeatherList {
             }
 
             public static class FluBean {
+                @Override
+                public String toString() {
+                    return "flu";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -155,6 +172,10 @@ public class WeatherList {
             }
 
             public static class SportBean {
+                @Override
+                public String toString() {
+                    return "sport";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -162,6 +183,10 @@ public class WeatherList {
             }
 
             public static class TravBean {
+                @Override
+                public String toString() {
+                    return "trav";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")
@@ -169,6 +194,10 @@ public class WeatherList {
             }
 
             public static class UvBean {
+                @Override
+                public String toString() {
+                    return "uv";
+                }
                 @SerializedName("brf")
                 public String brf;
                 @SerializedName("txt")

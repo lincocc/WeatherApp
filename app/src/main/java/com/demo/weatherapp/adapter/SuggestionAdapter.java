@@ -18,41 +18,36 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
+public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.ViewHolder> {
 
-    private final List<WeatherBean.DailyForecastBean> mValues;
+    private final List<WeatherBean.SuggestionBean> mValues;
 
-
-    public void updateSource(List<WeatherBean.DailyForecastBean> date) {
+    public void updateSource(List<WeatherBean.SuggestionBean> date) {
         mValues.clear();
         mValues.addAll(date);
         notifyDataSetChanged();
     }
 
-    public DailyWeatherAdapter(List<WeatherBean.DailyForecastBean> items) {
+    public SuggestionAdapter(List<WeatherBean.SuggestionBean> items) {
         mValues = items;
     }
-
-    public DailyWeatherAdapter() {
+    public SuggestionAdapter() {
         mValues = new ArrayList<>(0);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.daily_forecast_item, parent, false);
+                .inflate(R.layout.tip_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        WeatherBean.DailyForecastBean mItem = mValues.get(position);
-        holder.img.setImageResource(Constants.ICON_MAP.get(mItem.cond.txtD));
-        String dayAndTmp = String.format("%s  %s ℃ ~ %s ℃", Utils.dayForWeek(mItem.date),
-                mItem.tmp.min, mItem.tmp.max);
-        holder.dayTmp.setText(dayAndTmp);
-        String info = String.format("湿度 %s%%, 降雨概率 %s%%，%s，%s", mItem.hum, mItem.pop
-                , mItem.wind.sc, mItem.wind.dir);
-        holder.info.setText(info);
+        WeatherBean.SuggestionBean mItem = mValues.get(position);
+
+        holder.img.setImageResource(R.drawable.icon_cloth);
+        holder.brf.setText(mItem.comf.brf);
+        holder.detail.setText(mItem.comf.txt);
     }
 
     @Override
@@ -63,10 +58,10 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img)
         ImageView img;
-        @BindView(R.id.day_tmp)
-        TextView dayTmp;
-        @BindView(R.id.info)
-        TextView info;
+        @BindView(R.id.brf)
+        TextView brf;
+        @BindView(R.id.detail)
+        TextView detail;
 
         public ViewHolder(View view) {
             super(view);

@@ -50,9 +50,10 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        getWindow().setStatusBarColor(Utils.getCurrentHourColor());
+//        getWindow().setStatusBarColor(Utils.getCurrentHourColor());
+//        getWindow().setNavigationBarColor(Utils.getCurrentHourColor());
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(Utils.getCurrentHourColor());
+//        mToolbar.setBackgroundColor(Utils.getCurrentHourColor());
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         mTabLayout.addTab(mTabLayout.newTab().setText("main"));
         mTabLayout.addTab(mTabLayout.newTab().setText("other"));
-        mTabLayout.setBackgroundColor(Utils.getCurrentHourColor());
+//        mTabLayout.setBackgroundColor(Utils.getCurrentHourColor());
         mAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         mViewPager.setAdapter(mAdapter);

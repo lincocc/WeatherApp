@@ -18,41 +18,41 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
+public class HourlyWeatherAdapter extends RecyclerView.Adapter<HourlyWeatherAdapter.ViewHolder> {
 
-    private final List<WeatherBean.DailyForecastBean> mValues;
+    private final List<WeatherBean.HourlyForecastBean> mValues;
 
-
-    public void updateSource(List<WeatherBean.DailyForecastBean> date) {
+    public void updateSource(List<WeatherBean.HourlyForecastBean> date) {
         mValues.clear();
         mValues.addAll(date);
         notifyDataSetChanged();
     }
 
-    public DailyWeatherAdapter(List<WeatherBean.DailyForecastBean> items) {
+    public HourlyWeatherAdapter(List<WeatherBean.HourlyForecastBean> items) {
         mValues = items;
     }
 
-    public DailyWeatherAdapter() {
+    public HourlyWeatherAdapter() {
         mValues = new ArrayList<>(0);
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.daily_forecast_item, parent, false);
+                .inflate(R.layout.hourly_forecast_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        WeatherBean.DailyForecastBean mItem = mValues.get(position);
-        holder.img.setImageResource(Constants.ICON_MAP.get(mItem.cond.txtD));
-        String dayAndTmp = String.format("%s  %s ℃ ~ %s ℃", Utils.dayForWeek(mItem.date),
-                mItem.tmp.min, mItem.tmp.max);
-        holder.dayTmp.setText(dayAndTmp);
-        String info = String.format("湿度 %s%%, 降雨概率 %s%%，%s，%s", mItem.hum, mItem.pop
-                , mItem.wind.sc, mItem.wind.dir);
-        holder.info.setText(info);
+        WeatherBean.HourlyForecastBean mItem = mValues.get(position);
+        holder.time.setText(mItem.date.split(" ")[1]);
+        String hum = String.format("%s%%", mItem.hum);
+        holder.hum.setText(hum);
+        String tmp = String.format("%s%%", mItem.tmp);
+        holder.tmp.setText(tmp);
+        String wind = String.format("%s", mItem.wind.sc);
+        holder.wind.setText(wind);
     }
 
     @Override
@@ -61,12 +61,14 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.img)
-        ImageView img;
-        @BindView(R.id.day_tmp)
-        TextView dayTmp;
-        @BindView(R.id.info)
-        TextView info;
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.hum)
+        TextView hum;
+        @BindView(R.id.tmp)
+        TextView tmp;
+        @BindView(R.id.wind)
+        TextView wind;
 
         public ViewHolder(View view) {
             super(view);

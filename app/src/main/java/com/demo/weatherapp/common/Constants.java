@@ -44,4 +44,13 @@ public class Constants {
         ICON_MAP_2.put("雨夹雪", R.mipmap.type_two_snowrain);
     }
 
+    public static final HashMap<String, Integer> SUGGESTION_ICON_MAP = new HashMap<>();
+    static {
+        SUGGESTION_ICON_MAP.put("comf", R.drawable.icon_cloth);
+        SUGGESTION_ICON_MAP.put("cw", R.drawable.icon_cloth);
+        SUGGESTION_ICON_MAP.put("drsg", R.drawable.icon_cloth);
+        SUGGESTION_ICON_MAP.put("flu", R.drawable.icon_flu);
+        SUGGESTION_ICON_MAP.put("sport", R.drawable.icon_sport);
+        SUGGESTION_ICON_MAP.put("trav", R.drawable.icon_travel);
+    }
 }
